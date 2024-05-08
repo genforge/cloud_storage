@@ -85,7 +85,7 @@ jobs:
         run: |
           source env/bin/activate
           cd apps/cloud_storage
-          pytest --cov=beam --cov-report=xml --disable-warnings -s | tee pytest-coverage.txt
+          pytest --cov=cloud_storage --cov-report=xml --disable-warnings -s | tee pytest-coverage.txt
         env:
           TYPE: server
 
@@ -94,3 +94,4 @@ jobs:
         with:
           pytest-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/pytest-coverage.txt
           junitxml-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
+
