@@ -94,4 +94,3 @@ jobs:
         with:
           pytest-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/pytest-coverage.txt
           junitxml-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
-
