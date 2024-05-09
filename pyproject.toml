@@ -21,7 +21,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts = "--cov=cloud_storage/cloud_storage --cov-report term"
+addopts = "--cov=cloud_storage/cloud_storage --cov-report term-missing"
 
 [tool.black]
 line-length = 99
