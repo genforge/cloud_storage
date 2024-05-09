@@ -5,6 +5,7 @@ import types
 import uuid
 from mimetypes import guess_type
 from typing import Optional, Union
+from urllib.parse import quote
 
 import frappe
 from boto3.exceptions import S3UploadFailedError
@@ -21,13 +22,12 @@ from frappe.utils.image import optimize_image, strip_exif_data
 from magic import from_buffer
 from PIL import UnidentifiedImageError
 from werkzeug.datastructures import FileStorage
-from urllib.parse import quote
 
 FILE_URL = "/api/method/retrieve?key={path}"
 URL_PREFIXES = ("http://", "https://", "/api/method/retrieve")
 
 
-class CustomFile(File):
+class CloudStorageFile(File):
 	@File.is_remote_file.getter
 	def is_remote_file(self) -> bool:
 		if self.file_url:  # type: ignore
