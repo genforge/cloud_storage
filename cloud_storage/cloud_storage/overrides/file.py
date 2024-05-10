@@ -4,8 +4,8 @@ import re
 import types
 import uuid
 from mimetypes import guess_type
-from typing import Optional, Union
 from urllib.parse import quote
+from urllib.request import urlopen
 
 import frappe
 from boto3.exceptions import S3UploadFailedError
@@ -34,7 +34,7 @@ class CloudStorageFile(File):
 			return self.file_url.startswith(URL_PREFIXES)  # type: ignore
 		return not self.content
 
-	def has_permission(self, ptype: Optional[str] = None, user: Optional[str] = None) -> bool:
+	def has_permission(self, ptype: str | None = None, user: str | None = None) -> bool:
 		return has_permission(self, ptype, user)
 
 	def validate(self) -> None:
@@ -92,7 +92,7 @@ class CloudStorageFile(File):
 			self.add_comment_in_reference_doc("Attachment Removed", _("Removed {0}").format(self.file_name))
 
 	def associate_files(
-		self, attached_to_doctype: Optional[str] = None, attached_to_name: Optional[str] = None
+		self, attached_to_doctype: str | None = None, attached_to_name: str | None = None
 	) -> None:
 		attached_to_doctype = attached_to_doctype or self.attached_to_doctype  # type: ignore
 		attached_to_name = attached_to_name or self.attached_to_name  # type: ignore
@@ -184,10 +184,12 @@ class CloudStorageFile(File):
 			self.validate_file_url()
 		file_path = quote(self.get_full_path())
 
-		if self.is_remote_file:
+		if self.file_url.startswith("/api/method/retrieve"):
 			client = get_cloud_storage_client()
 			file_object = client.get_object(Bucket=client.bucket, Key=self.s3_key)
 			self._content = file_object.get("Body").read()
+		elif self.file_url.startswith("http://") or self.file_url.startswith("https://"):
+			self._content = urlopen(self.file_url).read()
 		else:
 			# read the file
 			with open(file_path, mode="rb") as f:
@@ -237,7 +239,7 @@ class CloudStorageFile(File):
 		return file_path
 
 
-def has_permission(doc, ptype: Optional[str] = None, user: Optional[str] = None) -> bool:
+def has_permission(doc, ptype: str | None = None, user: str | None = None) -> bool:
 	has_access = False
 	user = frappe.session.user if not user else user
 	# check if public
@@ -270,7 +272,7 @@ def is_safe_path(path: str) -> bool:
 
 
 @frappe.whitelist()
-def get_sharing_link(docname: str, reset: Optional[Union[str, bool]] = None) -> str:
+def get_sharing_link(docname: str, reset: str | bool | None = None) -> str:
 	if isinstance(reset, str):
 		reset = json.loads(reset)
 	doc = frappe.get_doc("File", docname)
@@ -398,13 +400,13 @@ def upload_file(file: File) -> File:
 	return file
 
 
-def get_file_path(file: File, folder: Optional[str] = None) -> str:
+def get_file_path(file: File, folder: str | None = None) -> str:
 	parent_doctype = file.attached_to_doctype or "No Doctype"
 
 	fragments = [
 		folder,
 		parent_doctype,
-		file.attached_to_name.replace("#", "%23"),
+		file.attached_to_name.replace("#", "%23") if file.attached_to_name else "No Doctype",
 		file.file_name.replace("#", "%23"),
 	]
 
@@ -435,7 +437,9 @@ def write_file(file: File, remove_spaces_in_file_name: bool = True) -> File:
 
 	# if a hash-conflict is found, update the existing document with a new file association
 	existing_file_hashes = frappe.get_all(
-		"File", filters={"name": ["!=", file.name], "content_hash": file.content_hash}, pluck="name"
+		"File",
+		filters={"name": ["!=", file.name], "content_hash": file.content_hash},
+		pluck="name",
 	)
 
 	if existing_file_hashes:
@@ -452,7 +456,11 @@ def write_file(file: File, remove_spaces_in_file_name: bool = True) -> File:
 	if existing_file_names:
 		file_doc = frappe.get_doc("File", existing_file_names[0])
 		file_doc.update(
-			{"content": file.content, "content_hash": file.content_hash, "content_type": file.content_type}
+			{
+				"content": file.content,
+				"content_hash": file.content_hash,
+				"content_type": file.content_type,
+			}
 		)
 		file_doc.associate_files(file.attached_to_doctype, file.attached_to_name)
 		file = file_doc
