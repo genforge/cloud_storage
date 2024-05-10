@@ -2,7 +2,63 @@
 
 
 
-## v14.5.0 (2024-05-09)
+## v14.6.0 (2024-05-10)
+
+### Feature
+
+* feat: add preview for Microsoft Word documents (#44)
+
+* feat: add preview for Microsoft Word documents
+
+* fix: fallback to file name if file type isn&#39;t found
+
+* fix: extension string check
+
+* fix: encoded url on get_content (#51)
+
+* fix: allow http link files
+
+* docs: add documentation for Microsoft Word file preview
+
+* test: update moto dependencies
+
+* test: fix delete file test (#63)
+
+* ci: add frappe black to CI (#57)
+
+* ci: add frappe black to CI
+
+* chore: black
+
+* ci: fix v15 tests
+
+* ci: run redis server
+
+---------
+
+Co-authored-by: Tyler Matteson &lt;support@agritheory.dev&gt;
+Co-authored-by: Heather Kusmierz &lt;heather@agritheory.dev&gt;
+Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt;
+
+* chore: remove ruff
+
+* fix: remove broken isort lint, black
+
+* fix: black format and isort
+
+* chore: update poetry.lock
+
+---------
+
+Co-authored-by: Devarsh Bhatt &lt;58166671+bhattdevarsh@users.noreply.github.com&gt;
+Co-authored-by: Heather Kusmierz &lt;heather.kusmierz@gmail.com&gt;
+Co-authored-by: Tyler Matteson &lt;support@agritheory.dev&gt;
+Co-authored-by: Heather Kusmierz &lt;heather@agritheory.dev&gt;
+Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt;
+Co-authored-by: Tyler Matteson &lt;tyler@agritheory.com&gt; ([`16a7a81`](https://github.com/agritheory/cloud_storage/commit/16a7a81dff6f567289acec2ad7f75b9d7d1539c6))
+
+
+## v15.1.0 (2024-05-09)
 
 ### Feature
 
