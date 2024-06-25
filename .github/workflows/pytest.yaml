@@ -14,6 +14,7 @@ concurrency:
 permissions:
   contents: write
   checks: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -103,4 +104,4 @@ jobs:
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/pytest-coverage.txt
-          junitxml-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
+          pytest-xml-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
