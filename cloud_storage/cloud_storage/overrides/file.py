@@ -395,8 +395,6 @@ def upload_file(file: File) -> File:
 	except Exception as e:
 		frappe.log_error("File Upload Error", e)
 	file.db_set("s3_key", path)
-	if not file.name:
-		file.save()
 	return file
 
 
