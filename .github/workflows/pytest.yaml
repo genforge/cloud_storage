@@ -11,6 +11,12 @@ concurrency:
   group: version-15-cloud_storage-${{ github.event.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  checks: write
+  issues: write
+  pull-requests: write
+
 jobs:
   tests:
     name: Server
@@ -98,5 +104,4 @@ jobs:
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/pytest-coverage.txt
-          junitxml-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
-
+          pytest-xml-coverage-path: /home/runner/frappe-bench/apps/cloud_storage/coverage.xml
