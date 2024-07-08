@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v14.7.0 (2024-07-08)
 
+### Feature
+
+* feat: pre-commit configs from test_utils (#72)
+
+* feat: pre-commit configs from test_utils
+
+* fix: permissions for job
+
+* fix: pytest xml coverage path ([`33f79cb`](https://github.com/agritheory/cloud_storage/commit/33f79cb9c49143017d0b8f7c1b1971d79acd8550))
 
 ## v14.6.0 (2024-05-10)
 
@@ -57,8 +67,7 @@ Co-authored-by: Heather Kusmierz &lt;heather@agritheory.dev&gt;
 Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt;
 Co-authored-by: Tyler Matteson &lt;tyler@agritheory.com&gt; ([`16a7a81`](https://github.com/agritheory/cloud_storage/commit/16a7a81dff6f567289acec2ad7f75b9d7d1539c6))
 
-
-## v15.1.0 (2024-05-09)
+## v14.5.0 (2024-05-09)
 
 ### Feature
 
@@ -127,7 +136,6 @@ Co-authored-by: Myuddin khatri &lt;khatrimayu111@gmail.com&gt; ([`f6f819e`](http
 Co-authored-by: Tyler Matteson &lt;support@agritheory.dev&gt;
 Co-authored-by: Tyler Matteson &lt;tyler@agritheory.com&gt; ([`6332878`](https://github.com/agritheory/cloud_storage/commit/6332878d9deae412c29525d1f434eb86b12a7e8c))
 
-
 ## v14.4.1 (2024-05-06)
 
 ### Ci
@@ -170,8 +178,7 @@ Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt; ([`1452f34`](https://g
 
 [version-15] ci: backport testing (#59) ([`c1d5329`](https://github.com/agritheory/cloud_storage/commit/c1d532936bfb7cc64a9e17693066841afcb6bea3))
 
-
-## v15.0.0 (2024-02-07)
+## v14.4.0 (2024-02-07)
 
 ### Feature
 
@@ -180,7 +187,6 @@ Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt; ([`1452f34`](https://g
 ### Fix
 
 * fix: handle URL formats with hashtag characters (v15) (#55) ([`41d55a8`](https://github.com/agritheory/cloud_storage/commit/41d55a865f49ad57aa384b17bdec54ce41d42b8a))
-
 
 ## v14.3.0 (2024-01-19)
 
@@ -278,20 +284,17 @@ Co-authored-by: Rohan Bansal &lt;rohan@parsimony.com&gt; ([`331c1ef`](https://gi
 
 * fix: allow whitespace in file name (#42) ([`9d16ffa`](https://github.com/agritheory/cloud_storage/commit/9d16ffa631b56b9872da5d89091ec3ef5cd73629))
 
-
 ## v14.2.3 (2023-08-02)
 
 ### Fix
 
 * fix: set correct data type for permission check (#39) ([`114d579`](https://github.com/agritheory/cloud_storage/commit/114d579663ef4e8d1a76e01be3b395596c665511))
 
-
 ## v14.2.2 (2023-07-24)
 
 ### Fix
 
 * fix: explicitly use s3v4 protocol for compatibility with backblaze (#29) ([`c813f69`](https://github.com/agritheory/cloud_storage/commit/c813f69df93fac59f72af66311638ce3a4ea7d63))
-
 
 ## v14.2.1 (2023-05-17)
 
@@ -303,13 +306,11 @@ Co-authored-by: Rohan Bansal &lt;rohan@parsimony.com&gt; ([`331c1ef`](https://gi
 
 * test: add test for file associations ([`dd7ee93`](https://github.com/agritheory/cloud_storage/commit/dd7ee932fb4c6b18e4880791d4c016b2ee3caa87))
 
-
 ## v14.2.0 (2023-05-04)
 
 ### Feature
 
 * feat: get remote file content before sending email (#32) ([`d4e05e7`](https://github.com/agritheory/cloud_storage/commit/d4e05e798542a499463bbfcf07f2bd047080d98f))
-
 
 ## v14.1.3 (2023-05-02)
 
@@ -317,15 +318,17 @@ Co-authored-by: Rohan Bansal &lt;rohan@parsimony.com&gt; ([`331c1ef`](https://gi
 
 * fix: check if the app is installed before monkey-patch ([`7f5b036`](https://github.com/agritheory/cloud_storage/commit/7f5b036bf4d831a8aad20d8ec9eb58b4b01174fe))
 
-
 ## v14.1.2 (2023-04-11)
 
 ### Fix
 
 * fix: ignore user permissions when renaming file ([`ce5874f`](https://github.com/agritheory/cloud_storage/commit/ce5874fe15eac7da8d45d37114b4a859edc84e7d))
 
-
 ## v14.1.1 (2023-04-03)
+
+### Fix
+
+* fix: release CI (#26) ([`258e1c2`](https://github.com/agritheory/cloud_storage/commit/258e1c217e308aaf503c957d1c3b6ef3f690c5a9))
 
 ### Unknown
 
@@ -334,7 +337,6 @@ Co-authored-by: Rohan Bansal &lt;rohan@parsimony.com&gt; ([`331c1ef`](https://gi
 Ci ([`4dd5441`](https://github.com/agritheory/cloud_storage/commit/4dd5441bf6c5c5522dbae63c957ae4382ee50c8e))
 
 * Merge branch &#39;version-14&#39; into ci ([`49b61c6`](https://github.com/agritheory/cloud_storage/commit/49b61c6d4f48c38a3310ff615a84237d0068cbbc))
-
 
 ## v14.1.0 (2023-04-03)
 
@@ -393,8 +395,6 @@ Co-authored-by: Heather Kusmierz &lt;heather.kusmierz@gmail.com&gt; ([`05812a4`]
 ### Fix
 
 * fix: release ([`f112fe7`](https://github.com/agritheory/cloud_storage/commit/f112fe7a6357ad0d0ea2355c2523be1931d4c577))
-
-* fix: release CI (#26) ([`258e1c2`](https://github.com/agritheory/cloud_storage/commit/258e1c217e308aaf503c957d1c3b6ef3f690c5a9))
 
 * fix: release CI ([`2ce184e`](https://github.com/agritheory/cloud_storage/commit/2ce184e555a95cebc91d45de35280b6ade8a28f8))
 
