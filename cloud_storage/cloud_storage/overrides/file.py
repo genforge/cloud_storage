@@ -4,7 +4,7 @@ import re
 import types
 import uuid
 from mimetypes import guess_type
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 from urllib.request import urlopen
 
 import frappe
@@ -42,9 +42,32 @@ class CloudStorageFile(File):
 		if self.flags.cloud_storage or self.flags.ignore_file_validate:
 			return
 		if not self.is_remote_file:
-			super().validate()
+			self.custom_validate()
 		else:
 			self.validate_file_url()
+
+	def custom_validate(self):
+		if self.is_folder:
+			return
+
+		# Ensure correct formatting and type
+		self.file_url = unquote(self.file_url) if self.file_url else ""
+
+		self.validate_attachment_references()
+
+		# when dict is passed to get_doc for creation of new_doc, is_new returns None
+		# this case is handled inside handle_is_private_changed
+		if not self.is_new() and self.has_value_changed("is_private"):
+			self.handle_is_private_changed()
+
+		self.validate_file_path()
+		self.validate_file_url()
+
+		config = frappe.conf.cloud_storage_settings
+		if not config or config.get("use_local"):
+			self.validate_file_on_disk()
+
+		self.file_size = frappe.form_dict.file_size or self.file_size
 
 	def after_insert(self) -> File:
 		if self.attached_to_doctype and self.attached_to_name and not self.file_association:  # type: ignore
@@ -403,10 +426,14 @@ def upload_file(file: File) -> File:
 def get_file_path(file: File, folder: str | None = None) -> str:
 	parent_doctype = file.attached_to_doctype or "No Doctype"
 
+	attached_to_name = ""
+	if file.attached_to_name:
+		attached_to_name = file.attached_to_name.replace("#", "%23")
+
 	fragments = [
 		folder,
 		parent_doctype,
-		file.attached_to_name.replace("#", "%23") if file.attached_to_name else "No Doctype",
+		attached_to_name,
 		file.file_name.replace("#", "%23"),
 	]
 
