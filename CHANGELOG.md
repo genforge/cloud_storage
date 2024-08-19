@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v14.7.1 (2024-08-19)
+
+### Ci
+
+* ci: change backport config and update pre-commit config (#78)
+
+* ci: change backport config
+
+* pre-commit: added codespell
+
+* fix: remove extras from semantic release ([`328d8e8`](https://github.com/agritheory/cloud_storage/commit/328d8e89d29a7690eaf1e4ad3f3a7f2327de2869))
+
+### Fix
+
+* fix: add whitelist decorater for file content method (#82)
+
+Co-authored-by: Rohan Bansal &lt;rohan@agritheory.dev&gt; ([`bee8ebc`](https://github.com/agritheory/cloud_storage/commit/bee8ebcdd78d8e274d7d9641c668f507a5c05767))
+
 ## v14.7.0 (2024-07-08)
 
 ### Feature
