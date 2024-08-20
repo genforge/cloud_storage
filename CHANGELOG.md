@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v14.7.2 (2024-08-20)
+
+### Fix
+
+* fix: add custom validate for File(v15) (#80) ([`8c15d38`](https://github.com/agritheory/cloud_storage/commit/8c15d380c0c8d5d0c78c9df7bbd5a776a6e16456))
+
 ## v14.7.1 (2024-08-19)
 
 ### Ci
