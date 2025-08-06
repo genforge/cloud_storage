@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cloud_storage"
-version = "15.7.2"
+version = "15.2.0"
 description = "Frappe App for integrating with cloud storage applications"
 authors = ["AgriTheory <support@agritheory.dev>"]
 readme = "README.md"
