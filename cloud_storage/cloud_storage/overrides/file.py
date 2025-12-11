@@ -51,7 +51,7 @@ class CloudStorageFile(File):
 
 	def validate(self) -> None:
 		"""
-		HASH: bfbebb3d3d9c26eb34ed447112fcd46f1dadff00
+		HASH: efa6e6b66188c0131d1e374ca0904cc75f9e1119
 		REPO: https://github.com/frappe/frappe
 		PATH: frappe/core/doctype/file/file.py
 		METHOD: validate
@@ -102,7 +102,7 @@ class CloudStorageFile(File):
 					"File",
 					{"content_hash": self.content_hash, "name": ["!=", self.name], "is_folder": False},  # type: ignore
 				)
-			if associated_doc:
+			if associated_doc and associated_doc != self.name:
 				self.db_set(
 					"file_url", ""
 				)  # this is done to prevent deletion of the remote file with the delete_file hook
@@ -116,6 +116,14 @@ class CloudStorageFile(File):
 					ignore_permissions=True,
 					# validate=False,
 				)
+			if associated_doc and not self.s3_key:
+				s3_key = None
+				if "?key=" in self.file_url:
+					s3_key = self.file_url.split("?key=")[1]
+				elif "key=" in self.file_url:
+					s3_key = self.file_url.split("key=")[1].split("&")[0]
+				frappe.db.set_value("File", associated_doc, "s3_key", s3_key)
+				frappe.db.commit()
 		elif self.attached_to_doctype and self.attached_to_name and self.file_name:  # type: ignore
 			associated_doc = frappe.db.get_value(
 				"File",
@@ -233,6 +241,8 @@ class CloudStorageFile(File):
 
 	def remove_file_association(self, dt: str, dn: str) -> None:
 		if len(self.file_association) <= 1:
+			frappe.db.delete("File Association", {"parent": self.name})
+			frappe.db.commit()
 			self.delete()
 			return
 		to_remove = []
@@ -541,6 +551,26 @@ def upload_file(file: File) -> File:
 
 
 def get_file_path(file: File, folder: str | None = None) -> str:
+	custom_storage_path_generator = frappe.get_hooks("cloud_storage_path_generator")
+
+	if custom_storage_path_generator and len(custom_storage_path_generator) > 0:
+		try:
+			generator_fn = frappe.get_attr(custom_storage_path_generator[0])
+			return generator_fn(file, folder)
+		except Exception as e:
+			frappe.log_error(f"Custom path generator failed: {str(e)}", "Cloud Storage Path Error")
+
+	config = frappe.conf.get("cloud_storage_settings", {})
+	if config.get("use_legacy_paths", True):
+		return _legacy_get_file_path(file, folder)
+
+	if folder:
+		return f"{folder}/{file.file_name}"
+
+	return file.file_name
+
+
+def _legacy_get_file_path(file: File, folder: str | None = None) -> str:
 	parent_doctype = file.attached_to_doctype or "No Doctype"
 
 	attached_to_name = ""
